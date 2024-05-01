@@ -27,8 +27,6 @@ int minimax(TreeNode* node, bool isMaximizingPlayer, int depth, int alpha, int b
 void free_tree(TreeNode* node);
 void initialize_board(char board[3][3]);
 void print_board(char board[3][3]);
-
-// Function prototypes for the new strategies
 void bot_make_move(char board[3][3], char player);
 bool is_valid_move(char board[3][3], int row, int col);
 bool check_win(char board[3][3], char player);
@@ -262,11 +260,13 @@ void initialize_board(char board[3][3]) {
 // Function to print the Tic Tac Toe board
 void print_board(char board[3][3]) {
     printf("\n");
-    printf(" %c | %c | %c \n", board[0][0], board[0][1], board[0][2]);
-    printf("---|---|---\n");
-    printf(" %c | %c | %c \n", board[1][0], board[1][1], board[1][2]);
-    printf("---|---|---\n");
-    printf(" %c | %c | %c \n", board[2][0], board[2][1], board[2][2]);
+    printf("					-------------\n");
+    printf("					| %c | %c | %c |\n", board[0][0], board[0][1], board[0][2]);
+    printf("					|---|---|---|\n");
+    printf("					| %c | %c | %c |\n", board[1][0], board[1][1], board[1][2]);
+    printf("					|---|---|---|\n");
+    printf(" 					| %c | %c | %c |\n", board[2][0], board[2][1], board[2][2]);
+    printf("					-------------\n");
     printf("\n");
 }
 
@@ -510,15 +510,17 @@ bool check_win(char board[3][3], char player) {
 int main() {
     char choice;
     do {
-        printf("\nTic Tac Tactics\n");
-        printf("made by Daffa and Daiva\n");
-        printf("-----------------\n");
-        printf("|        |\n");
-        printf("| 1. Play    |\n");
-        printf("| 2. Exit    |\n");
-        printf("|        |\n");
-        printf("-----------------\n");
-        printf("Enter your choice: ");
+       
+        
+        printf("					-------------------------\n");
+        printf("					|    Tic Tac Tactics    |\n");
+        printf("					|   by Daffa and Daiva  |\n");
+        printf("					-------------------------\n");
+        printf("					| 1. Play               |\n");
+        printf("					| 2. Exit               |\n");
+        printf("					|                       |\n");
+        printf("					-------------------------\n");
+        printf("					Enter your choice: ");
         scanf(" %c", &choice);
 
         switch(choice) {
@@ -531,24 +533,27 @@ int main() {
 
                 while (!is_game_over(board)) {
                     // Print the current board
-                    printf("Current board:\n");
+                    printf("\n");
+                    printf("					Current board:\n");
                     print_board(board);
 
                     // Player's turn
                     if (current_player == PLAYER_X) {
-                        printf("Player X's turn (row col): ");
-                        int row, col;
-                        scanf("%d %d", &row, &col);
+                    	int row, col;
+                        printf("					Player X's turn (row): ");
+                        scanf("%d", &row);
+                        printf("					Player X's turn (col): ");
+                        scanf("%d", &col);
 
                         // Validate user input
                         while (!is_valid_move(board, row, col)) {
-                            printf("Invalid move. Try again (row col): ");
+                            printf("					Invalid move. Try again (row col): ");
                             scanf("%d %d", &row, &col);
                         }
 
                         board[row][col] = PLAYER_X;
                     } else { // Bot's turn (AI)
-                        printf("Bot's turn...\n");
+                        printf("					Bot's turn...\n");
 
                         // Bot makes a move based on implemented strategies
                         bot_make_move(board, PLAYER_O);
@@ -559,24 +564,24 @@ int main() {
                 }
 
                 // Print the final board
-                printf("Final board:\n");
+                printf("							Final board:\n");
                 print_board(board);
 
                 // Announce the winner or draw
                 if (check_winner(board) == PLAYER_X) {
-                    printf("Player X wins!\n");
+                    printf("						Player X wins!\n");
                 } else if (check_winner(board) == PLAYER_O) {
-                    printf("Player O wins!\n");
+                    printf("						Player O wins!\n");
                 } else {
-                    printf("It's a draw!\n");
+                    printf("						It's a draw!\n");
                 }
                 break;
             }
             case '2':
-                printf("Exiting the game. Goodbye!\n");
+                printf("							Exiting the game. Goodbye!\n");
                 break;
             default:
-                printf("Invalid choice. Please enter 1 or 2.\n");
+                printf("							Invalid choice. Please enter 1 or 2.\n");
         }
     } while (choice != '2');
 
