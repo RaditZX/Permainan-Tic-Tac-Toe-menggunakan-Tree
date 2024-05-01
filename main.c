@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-int main() {
+int main()
+{
 	printf("\nTic Tac Tactics\n");
 	printf("made by Daffa and Daiva\n");
 	printf("-----------------\n");
