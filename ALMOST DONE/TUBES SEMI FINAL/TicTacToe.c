@@ -266,7 +266,7 @@ TreeScore *insertScore(TreeScore *root, char player[], int score)
 void print_inorder(TreeScore* root) {
     if(root !=NULL){
     	print_inorder(root->left);
-    	printf("| %s\t      |\t  %d\t  | \n",root->player, root->score);
+    	printf("| %-35s | %d \t\t\t\t| \n",root->player, root->score);
     	print_inorder(root->right);
 	}
 }
@@ -277,7 +277,7 @@ void print_inorderTime(TreeTime* root) {
         // Calculate elapsed time in seconds
         double elapsed_time = difftime(root->end_time, root->start_time);
         elapsed_time = elapsed_time * -1;
-        printf("| %s\t      |\t %.2f seconds\t |\n", root->player, root->elapsed_time); // Display elapsed time
+        printf("| %-35s | %.2f seconds \t\t\t|\n", root->player, root->elapsed_time); // Display elapsed time
         print_inorderTime(root->right);
 	}
 }
