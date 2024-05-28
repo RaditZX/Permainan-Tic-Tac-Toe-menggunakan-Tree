@@ -103,7 +103,7 @@ int main()
             {
                 root = insertScore(root, player1Name, score);
                 printf("Name: %s            Score: %d\n",player1Name, score);
-                printf("Player wins!\n");
+                printf("%s wins!\n", player1Name);
                 rootTime = insertTime(rootTime, player1Name, elapsed_time);
                 playSoundEffect("win.wav");
             }
