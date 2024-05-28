@@ -13,7 +13,7 @@
 #define PLAYER 'x'
 #define EMPTY_CELL '_'
 
-void entryMove(char board[3][3], char current_player, char *playerName, int score);
+void entryMove(char board[3][3], char current_player, char *playerName, int score, bool withBot);
 bool is_valid_move(char board[3][3], int row, int col);
 
 #endif

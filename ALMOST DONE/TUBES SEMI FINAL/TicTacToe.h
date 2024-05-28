@@ -7,7 +7,7 @@
 #include <string.h>
 #include <limits.h>
 #include <math.h>
-
+#include <unistd.h>
 #include <windows.h>
 #include <mmsystem.h>
 #include <time.h>
@@ -57,6 +57,12 @@ void print_inorderTime(TreeTime* root);
 TreeTime *insertTime(TreeTime *root, char player[], double elapsed_time);
 void playSoundEffect(const char *soundName);
 void print_boardToMakeMove(char board[3][3], int col, int row);
+void loadingAnimation();
+void printMainMenu();
+void printDecorativeLine();
+void printAsciiArt();
+void clearScreen();
+
 
 
 

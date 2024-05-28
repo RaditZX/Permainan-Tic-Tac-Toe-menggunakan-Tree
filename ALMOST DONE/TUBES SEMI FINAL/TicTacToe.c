@@ -297,6 +297,61 @@ void setColor(int color) {
     SetConsoleTextAttribute(hConsole, color);
 }
 
+void clearScreen() {
+    system("cls || clear");
+}
+
+// Function to print Tic Tac Tactics ASCII art
+void printAsciiArt() {
+    clearScreen();
+    printf("\033[1;34m"); // Set color to blue
+    printf("\n");
+    printf("    _______ _     _______	   _______          _______ _  	     _______ \n");
+    printf("   |__   __|_|   |__   __|        |__   __|        |__   __|_|      / _____/ \n");
+    printf("      | |   _  _____| | ______  _____| | ______  _____| |   _  _____| |____\n");
+    printf("      | |  | |/ ___/| |/ ____ \\/ ___/| |/ ____ \\/ ___/| |  | |/ ___/\\_____ \\ \n");
+    printf("      | |  | |  |__ | | |___/ || |__ | | |___/ || |__ | |  | |  |__ _____| |\n");
+    printf("      |_|  |_|\\____\\|_|\\____/||\\____\\|_|\\____/||\\____\\|_|  |_|\\____\\\\______/	\n");
+    printf("\n");
+    printf("\033[0m"); // Reset color
+}
+
+// Function to print a decorative line
+void printDecorativeLine() {
+    printf("\033[1;36m"); // Set color to cyan
+    printf("===================================================================================\n");
+    printf("\033[0m"); // Reset color
+}
+
+// Function to print the main menu
+void printMainMenu() {
+    printAsciiArt();
+    printf("\033[1;32m"); // Set color to green
+    printf("                    		    MAIN MENU\n");
+    printDecorativeLine();
+    printf("  \033[1;33m1. Play against the Bot\n");
+    printf("  2. Play with a Friend\n");
+    printf("  3. Show Leaderboard\n");
+    printf("  4. Exit\n");
+    printDecorativeLine();
+    printf("Enter your choice: ");
+    printf("\033[0m"); // Reset color
+}
+
+
+// Function to simulate loading animation
+void loadingAnimation() {
+    const char animation[] = "|/-\\";
+    int i;
+    printf("Loading ");
+    for (i = 0; i < 10; ++i) {
+        printf("%c\b", animation[i % 4]);
+        fflush(stdout);
+        usleep(100000); // Sleep for 0.1 second
+    }
+    printf("\n");
+}
+
 
 
 

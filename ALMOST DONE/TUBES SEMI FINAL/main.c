@@ -1,3 +1,4 @@
+#include <unistd.h> // For usleep function
 #include "TicTacToe.h"
 #include "player.h"
 #include "bot.h"
@@ -16,52 +17,52 @@ int main()
 
     do
     {
-    	system("cls");
-        printf("\nTic Tac Tactics\n");
-        printf("made by Daffa and Daiva\n");
-        printf("==========================\n");
-        printf("|        		 |\n");
-        printf("| 1. Play against Bot    |\n");
-        printf("| 2. Play with a Friend  |\n");
-        printf("| 3. Show Leaderboard    |\n");
-        printf("| 3. Exit                |\n");
-        printf("|      		   	 |\n");
-        printf("==========================\n");
-        printf("Enter your choice: ");
+        printMainMenu();
         scanf(" %c", &choice);
 
         switch (choice)
         {
-        case '1':
-        {
-        	score = 0;
-            start_time = time(NULL); // Start time of the game
-            char board[3][3];
-            char *player1Name;
-		   
-		
-		    player1Name = (char *)malloc(20 * sizeof(char));
-		
-		    if (player1Name == NULL ) {
-		        printf("Memory allocation failed\n");
-		        return 1;
-		    }
-			system("cls");
-		    printf("Masukkan nama player 1 : ");
-		    getchar();
-		    fgets(player1Name, 20, stdin);
-		    
-		    size_t len = strlen(player1Name);
-		    if (len > 0 && player1Name[len - 1] == '\n') {
-		        player1Name[len - 1] = '\0';
-		    }
-		    
-            initialize_board(board);
-
-            char current_player = PLAYER;
-
-            while (!is_game_over(board))
+            case '1':
             {
+                clearScreen();
+                printAsciiArt();
+                printf("\033[1;33m"); // Set color to yellow
+                printf("You chose to play against the Bot.\n");
+                printf("Preparing the game ");
+                loadingAnimation();
+                printf("Let's start the game!\n");
+                
+
+                start_time = time(NULL); // Start time of the game
+                
+                char board[3][3];
+                char *player1Name = (char *)malloc(20 * sizeof(char));
+                
+                if (player1Name == NULL ) {
+                    printf("Memory allocation failed\n");
+                    return 1;
+                }
+                
+                clearScreen();
+                printf("Enter player 1's name: ");
+                getchar();
+                fgets(player1Name, 20, stdin);
+                
+                size_t len = strlen(player1Name);
+                if (len > 0 && player1Name[len - 1] == '\n') {
+                    player1Name[len - 1] = '\0';
+                }
+                
+                initialize_board(board);
+
+                char current_player = PLAYER;
+
+                while (!is_game_over(board))
+            {
+            	clearScreen();
+            	printDecorativeLine();
+                printf("\t\t\t      P L A Y  W I T H  B O T\n");
+                printDecorativeLine();
                 printf("Current board:\n");
                 printf("Score: %d\n", score);
                 printf("Use Arrow key to select the row or columns\n");
@@ -71,7 +72,7 @@ int main()
                 if (current_player == PLAYER)
                 {
                 	
-                    entryMove(board,PLAYER, player1Name, score);
+                    entryMove(board,PLAYER, player1Name, score, true);
                     score += generateScore(board);
                     system("cls");
                 }
@@ -84,16 +85,16 @@ int main()
                 current_player = (current_player == BOT) ? PLAYER : BOT;
             }
 
-            printf("Final board:\n");
-            print_board(board);
 
-            char winner = check_winner(board);
+                printf("Final board:\n");
+                print_board(board);
 
-            end_time = time(NULL); 
-            elapsed_time = difftime(end_time, start_time); 
-            printf("Elapsed time: %.2f seconds\n", elapsed_time);
+                char winner = check_winner(board);
 
-             if (winner == BOT)
+                end_time = time(NULL); 
+                elapsed_time = difftime(end_time, start_time); 
+                printf("Elapsed time: %.2f seconds\n", elapsed_time);
+ 			if (winner == BOT)
             {
                 printf("BOT wins!\n");
                 rootTime = insertTime(rootTime, "Bot", elapsed_time);
@@ -117,60 +118,79 @@ int main()
             saveBinaryTree(root, "scoreFile.txt");
             saveBinaryTreeTime(rootTime, "timeFile.txt");
             system("pause");
-            break;
-        }
-        case '2':
-        {
-            char board[3][3];
-		    initialize_board(board);
-		    char current_player = PLAYER;
-		    char *player1Name;
-		    char *player2Name;
-		    int player1_score = 0;
-		    int player2_score = 0;
-		
-		    player1Name = (char *)malloc(20 * sizeof(char));
-		    player2Name = (char *)malloc(20 * sizeof(char));
-		
-		    if (player1Name == NULL || player2Name == NULL) {
-		        printf("Memory allocation failed\n");
-		        return 1;
-		    }
-		    
-			system("cls");
-		    printf("Masukkan nama player 1 : ");
-		    getchar();
-		    fgets(player1Name, 20, stdin);
-		
-		    printf("Masukkan nama player 2 : ");
-		    fgets(player2Name, 20, stdin);
-		
-		    // Remove newline characters from names if present
-		    size_t len = strlen(player1Name);
-		    if (len > 0 && player1Name[len - 1] == '\n') {
-		        player1Name[len - 1] = '\0';
-		    }
-		    
-		    len = strlen(player2Name);
-		    if (len > 0 && player2Name[len - 1] == '\n') {
-		        player2Name[len - 1] = '\0';
-		    }
 
-            while (!is_game_over(board))
-            {
-                printf("Current board:\n");
-                printf("%s score: %d \t\t %s score: %d", player1Name,player1_score, player2Name,player2_score );
-                print_board(board);
-                entryMove(board, current_player, current_player == PLAYER? player1Name:player2Name, player1_score);
-				(current_player == PLAYER) ? player1_score = player1_score + generateScore(board) : player2_score = player2_score + generateScorePlayer2(board);
-                current_player = (current_player == PLAYER) ? BOT : PLAYER;
+                break;
             }
 
-            printf("Final board:\n");
-            print_board(board);
+            case '2':
+            {
+                clearScreen();
+                printAsciiArt();
+                printf("\033[1;33m"); // Set color to yellow
+                printf("You chose to play with a Friend.\n");
+                printf("Please wait ");
+                loadingAnimation();
+                printf("Get ready for some fun!\n");
 
-            char winner = check_winner(board);
-            if (winner == BOT)
+                char board[3][3];
+                initialize_board(board);
+                char *player1Name = (char *)malloc(20 * sizeof(char));
+                char *player2Name = (char *)malloc(20 * sizeof(char));
+                int player1_score = 0;
+                int player2_score = 0;
+                
+                if (player1Name == NULL || player2Name == NULL) {
+                    printf("Memory allocation failed\n");
+                    return 1;
+                }
+                
+                clearScreen();
+                printDecorativeLine();
+                printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+                printDecorativeLine();
+                printf("Enter player 1's name: ");
+                getchar();
+                fgets(player1Name, 20, stdin);
+                
+                printf("Enter player 2's name: ");
+                fgets(player2Name, 20, stdin);
+                
+                start_time = time(NULL); // Start time of the game
+                
+                // Remove newline characters from names if present
+                size_t len = strlen(player1Name);
+                if (len > 0 && player1Name[len - 1] == '\n') {
+                    player1Name[len - 1] = '\0';
+                }
+                
+                len = strlen(player2Name);
+                if (len > 0 && player2Name[len - 1] == '\n') {
+                    player2Name[len - 1] = '\0';
+                }
+                
+
+                char current_player = PLAYER;
+
+                while (!is_game_over(board))
+                {
+                    clearScreen();
+                    printDecorativeLine();
+	                printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+	                printDecorativeLine();
+                    printf("Current board:\n");
+                    printf("%s score: %d \t\t %s score: %d", player1Name,player1_score, player2Name,player2_score );
+                    print_board(board);
+                    entryMove(board, current_player, current_player == PLAYER? player1Name:player2Name, current_player == PLAYER? player1_score:player2_score, false);
+                    (current_player == PLAYER) ? player1_score += generateScore(board) : player2_score += generateScorePlayer2(board);
+                    current_player = (current_player == PLAYER) ? BOT : PLAYER;
+                }
+
+                printf("Final board:\n");
+                print_board(board);
+				end_time = time(NULL);
+				elapsed_time = difftime(end_time, start_time); 
+                char winner = check_winner(board);
+                if (winner == BOT)
             {
             	playSoundEffect("win.wav");
             	root = insertScore(root, player2Name, player2_score);
@@ -192,59 +212,82 @@ int main()
             saveBinaryTree(root, "scoreFile.txt");
             saveBinaryTreeTime(rootTime, "timeFile.txt");
             system("pause");
-        }
-        case '3':
-        {
-        	int i,j = 1;
-        	system("cls");
-            do
-            {
-            	
-                printf("\nTic Tac Tactics\n");
-                printf("made by Daffa and Daiva\n");
-                printf("===========================\n");
-                printf("|        	 	  |\n");
-                printf("| 1. Board based on score |\n");
-                printf("| 2. Board based on time  |\n");
-                printf("| 3. Exit                 |\n");
-                printf("|        	 	  |\n");
-                printf("===========================\n");
-                printf("Enter your choice: ");
-                scanf(" %c", &choice);
 
-                switch (choice)
+                break;
+            }
+
+            case '3':
+            {
+                int i,j = 1;
+                clearScreen();
+                do
                 {
-                case '1':
-                	root = loadBinaryTree("scoreFile.txt");
-                    printf("\nScore Board Based on Score\n");
+                    printAsciiArt();
+                    printDecorativeLine();
+	                printf("\t\t    S C O R E  B O A R D S\n");
+	                printDecorativeLine();
+                    printf("\033[1;33m"); // Set color to yellow
                     printf("===========================\n");
-                    printf("| Player Name |   Score   |\n");
+                    printf("|        	 	  |\n");
+                    printf("| 1. Board based on score |\n");
+                    printf("| 2. Board based on time  |\n");
+                    printf("| 3. Exit                 |\n");
+                    printf("|        	 	  |\n");
                     printf("===========================\n");
-                    print_inorder(root);
-                    printf("===========================\n");
-                    system("pause");
-                    system("cls");
-                    break;
-                case '2':
-                	rootTime = loadBinaryTreeTime("timeFile.txt");
-                    printf("\nScore Board Based on Time\n");
-                    printf("==================================\n");
-                    printf("| Player Name |   Time Lapsed    |\n");
-                    printf("=================================\n");
-                    print_inorderTime(rootTime);
-                    printf("==================================\n");
-                    system("pause");
-                    system("cls");
-                    break;
-                }
-            } while (choice != '3');
-            break;
-        }
-        case '4':
-            printf("Exiting the game. Goodbye!\n");
-            break;
-        default:
-            printf("Invalid choice. Please enter 1, 2, 3, or 4.\n");
+                    printf("Enter your choice: ");
+                    scanf(" %c", &choice);
+
+                    switch (choice)
+                    {
+                        case '1':
+                            root = loadBinaryTree("scoreFile.txt");
+                            clearScreen();
+                            printDecorativeLine();
+			                printf("\t\t    S C O R E  B O A R D  B A S E D  O N  S C O R E\n");
+			                printDecorativeLine();
+                            printf("=========================================================================\n");
+                            printf("|             Player Name             |               Score             |\n");
+                            printf("=========================================================================\n");
+                            print_inorder(root);
+                            printf("=========================================================================\n");
+                            system("pause");
+                            printf("\033[0m"); // Reset color
+                            break;
+
+                        case '2':
+                            rootTime = loadBinaryTreeTime("timeFile.txt");
+                            clearScreen();
+                            printDecorativeLine();
+                            printf("\t\t    S C O R E  B O A R D  B A S E D  O N  T I M E\n");
+                            printDecorativeLine();
+                            printf("=========================================================================\n");
+                            printf("|             Player Name             |            Time Lapsed          |\n");
+                            printf("=========================================================================\n");
+                            print_inorderTime(rootTime);
+                            printf("=========================================================================\n");
+                            system("pause");
+                            printf("\033[0m"); // Reset color
+                            break;
+                    }
+                } while (choice != '3');
+                break;
+            }
+
+            case '4':
+            {
+                printf("Exiting the game. Goodbye!\n");
+                break;
+            }
+
+            default:
+            {
+                clearScreen();
+                printf("\033[1;31m"); // Set color to red
+                printf("Invalid choice. Please enter a number between 1 and 4.\n");
+                printf("\033[0m"); // Reset color
+                system("pause");
+                break;
+            }
         }
     } while (choice != '4');
 

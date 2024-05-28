@@ -1,7 +1,7 @@
 #include "player.h"
 #include "TicTacToe.h"
 
-void entryMove(char board[3][3], char current_player, char *playerName, int score)
+void entryMove(char board[3][3], char current_player, char *playerName, int score, bool withBot)
 {
 
    int col = 0,row = 0;
@@ -12,6 +12,13 @@ void entryMove(char board[3][3], char current_player, char *playerName, int scor
             switch (ch) {
                 case 72: // Up arrow
                 system("cls");
+                 printDecorativeLine();
+                if(withBot){
+                	printf("\t\t\t      P L A Y  W I T H  B O T\n");
+				}else{
+					printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+				}
+                printDecorativeLine();
                 printf("Current board:\n");
                 printf("Score: %d\n", score);
                 printf("Use Arrow key to select the row or columns\n");
@@ -23,10 +30,17 @@ void entryMove(char board[3][3], char current_player, char *playerName, int scor
                     printf("%s turns",playerName );
                     break;
                 case 80: // Down arrow
-                system("cls");
-                printf("Current board:\n");
-                printf("Score: %d\n", score);
-                printf("Use Arrow key to select the row or columns\n");
+	                system("cls");
+	                 printDecorativeLine();
+	                 if(withBot){
+	                	printf("\t\t\t      P L A Y  W I T H  B O T\n");
+					}else{
+						printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+					}
+	                printDecorativeLine();
+	                printf("Current board:\n");
+	                printf("Score: %d\n", score);
+	                printf("Use Arrow key to select the row or columns\n");
                     row++;
                     if(row > 2){
                     	row = 0;
@@ -36,6 +50,13 @@ void entryMove(char board[3][3], char current_player, char *playerName, int scor
                     break;
                 case 75: // Left arrow
 	                system("cls");
+	                printDecorativeLine();
+	                if(withBot){
+	                	printf("\t\t\t      P L A Y  W I T H  B O T\n");
+					}else{
+						printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+					}
+                	printDecorativeLine();
 	                printf("Current board:\n");
 	                printf("Score: %d\n", score);
 	                printf("Use Arrow key to select the row or columns\n");
@@ -48,8 +69,14 @@ void entryMove(char board[3][3], char current_player, char *playerName, int scor
                     
                     break;
                 case 77: // Right arrow
-                system("cls");
-      
+                	system("cls");
+      			 	printDecorativeLine();
+	                 if(withBot){
+                		printf("\t\t\t      P L A Y  W I T H  B O T\n");
+					}else{
+						printf("\t\t\t     P L A Y  W I T H  F R I E N D S\n");
+					}
+	                printDecorativeLine();
                     printf("Current board:\n");
                     printf("Score: %d\n", score);
                     printf("Use Arrow key to select the row or columns\n");
@@ -69,7 +96,7 @@ void entryMove(char board[3][3], char current_player, char *playerName, int scor
 
 	if(board[row][col] != EMPTY_CELL){
 		playSoundEffect("tetot.wav");
-		entryMove(board, current_player, playerName, score);
+		entryMove(board, current_player, playerName, score, withBot);
 	}else{
 		playSoundEffect("player1Sound.wav");
 		board[row][col] = current_player;
